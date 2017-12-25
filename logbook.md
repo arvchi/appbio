@@ -10,3 +10,7 @@ gunzip *
 
 # 2017-12-15 Create program file and draft outline
 * see trimming1.py.
+
+# 2017-12-24 Add statistics and plots
+* See trimming1.py.
+* Script now returns some general statistics and histograms, can be used to test effects of algorithm.
