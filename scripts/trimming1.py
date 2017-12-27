@@ -10,22 +10,28 @@ trimmed_sequences = []
 seq_lengths = []
 seq_qualities = []
 with open('/Users/arvin/Box Sync/Kurser/2017_Applied.bioinformatics/Project/data/fastq/miseq1.fq', "rU") as fq:
-    for record in SeqIO.parse(fq, "fastq"):
-         # if record.letter_annotations["phred_quality"] ...
-         # do something
-         trimmed_sequences.append(record)
-         seq_lengths.append(len(record.seq))
-         seq_qualities.extend(record.letter_annotations["phred_quality"])
-         # I use extend instead of append because ojbect is already list
+    for record in SeqIO.parse(fq, "fastq"):  # Parse through each accession
+        for i in range(0, len(record.seq)):  # Create iterator over each base call
+            if numpy.mean(record.letter_annotations["phred_quality"][i:]) < 14 or i == len(record.seq):
+                import pdb; pdb.set_trace()
+                trimmed_sequences.append(record[0:i])
+                break  # stop the loop
 
-# import pdb; pdb.set_trace()
+SeqIO.write(trimmed_sequences, "trimmed_seqs.fasta", "fasta")  ## write to file
+
+        seq_lengths.append(len(record.seq))
+        seq_qualities.extend(record.letter_annotations["phred_quality"])
+        # I use extend instead of append because ojbect is already list
+
 
 SeqIO.write(trimmed_sequences, "trimmed_seqs.fasta", "fasta")  ## write to file
 
 # Statistics
-numpy.mean(seq_lengths)
-numpy.mean(seq_qualities)
-max(seq_qualities)
+print(numpy.mean(seq_lengths))
+print(numpy.mean(seq_qualities))
+print("max quality:", (max(seq_qualities)))
+print("min quality:", (min(seq_qualities)))
+numpy.std(seq_qualities)
 
 # Plot Length
 plt.figure(1)
