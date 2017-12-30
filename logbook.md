@@ -1,4 +1,4 @@
-# 2017-12-15 Set dirs and download data
+# 2017-12-15 Set directories and download data
 * Set up dirs and README.
 * git init.
 * download data, store in /data/fastq/
@@ -80,8 +80,38 @@ Mean quality after trimming: 29.0669878561
 * I will abandon the idea of looking at consecutive bases. Instead, i will work further on algorithm 1, but with some changes.
 * To avoid premature trimming, I will start looking from the last 20 bases, and cut if the mean quality of the remaining bases is too low.
 
-# 2017-12-28 Adding controls
+## Evaluation of algorithm 2
+* Increases quality in both data sets, more conservative than algorithm 1.
+
+### Miseq1
+Nr of seqs trimmed: 17
+Nr of seqs not_trimmed: 8
+Mean seq length before trimming: 245.8
+Mean seq length after trimming: 235.16
+Mean quality before trimming: 17.1938161107
+Mean quality after trimming: 17.3988773601
+
+### Miseq2
+Nr of seqs trimmed: 101461
+Nr of seqs not_trimmed: 148539
+Mean seq length before trimming: 168.813372
+Mean seq length after trimming: 164.339672
+Mean quality before trimming: 29.3656623126
+Mean quality after trimming: 29.5452556824
+
+# 2018-01-01 Adding controls
 * Empty file will produce warning. Tested and works.
 * Fasta file as input (instead of fastq) will give same error message. Tested and works.
 * File with short sequences: Short seqs will not be trimmed (but stored as is). Warning will be written to stdout. Tested and works.
 * Unambigious nucletoides are not considered. Going through each base and check it would make program less efficient, and not really the purpose either. Include in discussion.
+
+# 2017-12-30 Adding some statistics
+* MY algorithms don't have a big impact on overall quality, but in fact, only the ends of the reads are really important here.
+* Therefore, my program now also reports the quality of the 20 last bases, before and after trimming.
+
+## tr1 on miseq2
+Mean quality of tail before trimming: 28.5856804
+Mean quality of tail after trimming: 30.3682810509
+## tr2 on miseq2
+Mean quality of tail before trimming: 28.5856804
+Mean quality of tail after trimming: 29.3099444
