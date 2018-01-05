@@ -1,3 +1,5 @@
+Arvin Logbook
+
 # 2017-12-15 Set directories and download data
 * Set up dirs and README.
 * git init.

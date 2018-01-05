@@ -1,5 +1,7 @@
 #! /usr/bin/env python
 
+# Written by Arvin, 2017.
+
 import argparse
 from Bio import SeqIO
 import matplotlib.pyplot as plt
