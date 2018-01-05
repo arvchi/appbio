@@ -76,19 +76,24 @@ elif args.algorithm == "tr2":  # Algorithm 2
         else:
             # Calculate metrics
             mean_quality = numpy.mean(
-                record.letter_annotations["phred_quality"][0:50])
+                record.letter_annotations["phred_quality"][0:30])
             std_quality = numpy.std(
-                record.letter_annotations["phred_quality"][0:50])
+                record.letter_annotations["phred_quality"][0:30])
             threshold = mean_quality - (1 * std_quality)
-            for i in range(len(record.seq)-20, len(record.seq)):  # start from the last 20 bases
-                # Check quality threshold and trim
-                if numpy.mean(
-                     record.letter_annotations["phred_quality"][i:]
-                     ) < threshold:
+            for i in range(0, (len(record.seq)-9)):  # Iterate over each base
+                consecutive_bases = []
+                set_length = 10
+                base = i
+                for x in range(0, set_length):
+                    consecutive_bases.append(record.letter_annotations["phred_quality"][base])
+                    base += 1
+                #import pdb; pdb.set_trace()
+                if all(q < threshold for q in consecutive_bases):
+                    # If condition is met
                     trimmed_sequences.append(record[0:i])  # up to i:th base
                     trimmed += 1
                     break  # stop the loop
-                elif i == (len(record.seq)-1):  # If end of sequence
+                elif i == (len(record.seq)-10):  # If end of sequence
                     trimmed_sequences.append(record)  # keep whole record
                     not_trimmed += 1
 
